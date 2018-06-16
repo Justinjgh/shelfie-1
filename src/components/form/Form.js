@@ -6,37 +6,31 @@ class Form extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: this.props.currentProduct.name,
-			price: this.props.currentProduct.price,
-			image_url: this.props.currentProduct.image_url,
-			currentId: this.props.currentProduct.product_id
+			name: "",
+			price: "",
+			image_url: "",
+            currentId: null,
+            
 		};
 	}
-	componentDidUpdate(props) {
-		if (props.currentProduct === this.props.currentProduct) {
-		} else
-			this.setState({
-				currentId: this.props.currentProduct.product_id,
-				name: this.props.currentProduct.name,
-				price: this.props.currentProduct.price,
-				image_url: this.props.currentProduct.image_url
-			});
+	componentWillMount(props) {
+		if (this.props.match.params.id) {
+            axios.get('/api/inventory/'+this.props.match.params.id)
+            .then(response=> {
+                this.setState({
+                    name: response.data[0].name,
+                    price: response.data[0].price,
+                    image_url:response.data[0].image_url,
+                    currentId:response.data[0].product_id
+                })
+            })
+		} 
 	}
 	handleChange(event, name) {
 		const value = event.target.value;
 		this.setState({ [name]: value });
 	}
-	clearInput() {
-		this.setState(
-			{
-				name: this.props.currentProduct.name,
-			    price: this.props.currentProduct.price,
-			    image_url: this.props.currentProduct.image_url,
-			    currentId: this.props.currentProduct.product_id
-			},
-			this.props.updatedProduct()
-		);
-	}
+	
 	addItem() {
 		const newItem = {
 			name: this.state.name,
@@ -45,8 +39,7 @@ class Form extends Component {
 		};
 
 		axios.post('/api/inventory', newItem).then(() => {
-			this.props.getItemList();
-			this.clearInput();
+			
 		});
 	}
 	updateItem() {
@@ -57,8 +50,6 @@ class Form extends Component {
 		};
 
 		axios.patch('/api/inventory/' + this.state.currentId, editedItem).then(() => {
-			this.props.getItemList();
-			this.clearInput();
 		});
 	}
 	render() {
@@ -88,8 +79,7 @@ class Form extends Component {
 					<p className="input-label">Price:</p>
 					<input value={this.state.price} onChange={(e) => this.handleChange(e, 'price')} />
 					<div className="form-buttons-container">
-						<Link to="/">
-							<button onClick={() => this.clearInput()}>Cancel</button>{' '}
+						<Link to="/"><button>Cancel</button>
 						</Link>
 						<Link to="/">{addOrUpdate}</Link>
 					</div>

@@ -34,5 +34,16 @@ module.exports = {
 			res.status(500).send({ errorMessage: 'Something went wrong!' });
 			console.log(err);
 		});
+	},
+	getOne: (req, res, next)=> {
+		const dbInstance = req.app.get('db');
+		const { id } = req.params;
+
+		dbInstance.get_product([id])
+		.then( product => res.status(200).send( product ) )
+        .catch( err => {
+          res.status(500).send({errorMessage: "Something went wrong!"});
+          console.log(err)
+        } );
 	}
 };

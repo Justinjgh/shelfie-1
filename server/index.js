@@ -18,6 +18,7 @@ app.get('/api/inventory', controller.read)
 app.post('/api/inventory', controller.create)
 app.delete('/api/inventory/:id', controller.delete)
 app.patch('/api/inventory/:id', controller.update)
+app.get('/api/inventory/:id', controller.getOne)
 
 const port = 3002
 

@@ -24,20 +24,8 @@ export default function Product(props) {
 						{' '}
 						Delete
 					</button>
-					<Link to="/edit-product-form">
-						<button
-							className="product-button"
-							onClick={() => {
-								props.editProduct(
-									props.currentProduct.image_url,
-									props.currentProduct.name,
-									props.currentProduct.price,
-									props.currentProduct.product_id
-								);
-							}}
-						>
-							Edit
-						</button>
+					<Link to={"/edit-product-form/" + props.currentProduct.product_id}>
+						<button className="product-button">Edit</button>
 					</Link>
 				</div>
 			</div>
