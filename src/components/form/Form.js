@@ -24,8 +24,20 @@ class Form extends Component {
                     currentId:response.data[0].product_id
                 })
             })
-		} 
-	}
+		}
+         
+    }
+    componentDidUpdate(props){
+        if(props.match.params.id != this.props.match.params.id){
+            this.setState({
+                name: "",
+			    price: "",
+			image_url: "",
+            currentId: null,
+            })
+        }
+    }
+   
 	handleChange(event, name) {
 		const value = event.target.value;
 		this.setState({ [name]: value });
