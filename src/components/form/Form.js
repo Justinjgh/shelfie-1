@@ -61,7 +61,7 @@ class Form extends Component {
 			image_url: this.state.image_url
 		};
 
-		axios.patch('/api/inventory/' + this.state.currentId, editedItem).then(() => {
+		axios.put('/api/inventory/' + this.state.currentId, editedItem).then(() => {
 		});
 	}
 	render() {
